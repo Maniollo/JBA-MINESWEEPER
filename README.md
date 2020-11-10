@@ -1,0 +1,2 @@
+# MINESWEEPER
+JetBrains Academy Project
