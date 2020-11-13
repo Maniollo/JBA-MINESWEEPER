@@ -8,15 +8,18 @@ import static masmar.home.jba.minesweeper.Symbol.SAFE
 class MineFieldSpec extends Specification {
     def "should display empty MineField"() {
         expect:
-        new MineField(0).toString() == ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                ".........\n" +
-                "........."
+        new MineField(0).toString() ==
+                " |123456789|\n" +
+                "-|---------|\n" +
+                "1|.........|\n" +
+                "2|.........|\n" +
+                "3|.........|\n" +
+                "4|.........|\n" +
+                "5|.........|\n" +
+                "6|.........|\n" +
+                "7|.........|\n" +
+                "8|.........|\n" +
+                "9|.........|"
     }
 
     def "should create MineField with 15 mines"() {
@@ -40,15 +43,17 @@ class MineFieldSpec extends Specification {
 
         then:
         new MineField(field).toString() ==
-                ".........\n" +
-                ".111111..\n" +
-                ".1X22X211\n" +
-                ".112X33X1\n" +
-                "...12X211\n" +
-                "....1221.\n" +
-                "..1111X1.\n" +
-                "123X1222.\n" +
-                "1XX211X1."
+                " |123456789|\n" +
+                "-|---------|\n" +
+                "1|.........|\n" +
+                "2|.111111..|\n" +
+                "3|.1X22X211|\n" +
+                "4|.112X33X1|\n" +
+                "5|...12X211|\n" +
+                "6|....1221.|\n" +
+                "7|..1111X1.|\n" +
+                "8|123X1222.|\n" +
+                "9|1XX211X1.|"
     }
 
     private static int countMines(String s) {

@@ -116,7 +116,7 @@ class MineField {
         while (addedMines < minesCount) {
             int i = random.nextInt(SIZE);
             int j = random.nextInt(SIZE);
-            if (field[i][j] == Symbol.SAFE) {
+            if (field[i][j] != Symbol.MINE) {
                 field[i][j] = Symbol.MINE;
                 addedMines += 1;
             }
@@ -127,11 +127,13 @@ class MineField {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
+        output.append(" |123456789|\n").append("-|---------|\n");
         for (int i = 0; i < SIZE; i++) {
+            output.append(i + 1).append("|");
             for (int j = 0; j < SIZE; j++) {
                 output.append(field[i][j].getSymbol());
                 if (j == 8) {
-                    output.append("\n");
+                    output.append("|\n");
                 }
             }
         }
