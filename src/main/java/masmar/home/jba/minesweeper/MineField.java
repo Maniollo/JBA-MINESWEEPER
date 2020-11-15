@@ -5,17 +5,50 @@ import java.util.Random;
 class MineField {
     private static final int SIZE = 9;
     private Symbol[][] field;
+    private int shotCounter;
+    private int missCounter;
+    private int minesCount;
 
     public MineField(int minesCount) {
         field = new Symbol[SIZE][SIZE];
-        addMinesRandomly(minesCount);
+        this.minesCount = minesCount;
+        addMinesRandomly();
         addNeighbourCounters();
     }
 
     //    ONLY FOR TESTING
-    MineField(Symbol[][] field) {
+    MineField(Symbol[][] field, int minesCount) {
         this.field = field;
+        this.minesCount = minesCount;
         addNeighbourCounters();
+    }
+
+    Status shot(int x, int y) {
+        int row = y - 1;
+        int column = x - 1;
+
+        Symbol value = field[row][column];
+        if (value.isNumber()) {
+            return Status.HIT_NUMBER;
+        } else if (value == Symbol.MINE) {
+            field[row][column] = Symbol.MARKED_MINE;
+            shotCounter += 1;
+        } else if (value == Symbol.SAFE) {
+            field[row][column] = Symbol.MARKED_MISS;
+            missCounter += 1;
+        } else if (value == Symbol.MARKED_MINE) {
+            field[row][column] = Symbol.MINE;
+            shotCounter -= 1;
+        } else if (value == Symbol.MARKED_MISS) {
+            field[row][column] = Symbol.SAFE;
+            missCounter -= 1;
+        }
+
+        if (shotCounter == minesCount && missCounter == 0) {
+            return Status.COMPLETED;
+        } else {
+            return Status.ON_GOING;
+        }
     }
 
     private void addNeighbourCounters() {
@@ -107,7 +140,7 @@ class MineField {
         }
     }
 
-    private void addMinesRandomly(int minesCount) {
+    private void addMinesRandomly() {
         if (minesCount > SIZE * SIZE || minesCount < 1) {
             return;
         }
@@ -116,7 +149,7 @@ class MineField {
         while (addedMines < minesCount) {
             int i = random.nextInt(SIZE);
             int j = random.nextInt(SIZE);
-            if (field[i][j] == Symbol.SAFE) {
+            if (field[i][j] != Symbol.MINE) {
                 field[i][j] = Symbol.MINE;
                 addedMines += 1;
             }
@@ -127,15 +160,17 @@ class MineField {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
+        output.append(" |123456789|\n").append("-|---------|\n");
         for (int i = 0; i < SIZE; i++) {
+            output.append(i + 1).append("|");
             for (int j = 0; j < SIZE; j++) {
                 output.append(field[i][j].getSymbol());
                 if (j == 8) {
-                    output.append("\n");
+                    output.append("|\n");
                 }
             }
         }
-        output.deleteCharAt(output.length() - 1);
+        output.append("-|---------|");
         return output.toString();
     }
 }
