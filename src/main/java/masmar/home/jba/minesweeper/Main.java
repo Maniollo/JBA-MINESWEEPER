@@ -10,20 +10,21 @@ class Main {
         System.out.println("How many mines do you want on the field?");
         int minesCount = SCANNER.nextInt();
         MineField mineField = new MineField(minesCount);
-        System.out.println(mineField);
-        Status status = Status.ON_GOING;
-        while (status != Status.COMPLETED) {
-            System.out.println("Set/delete mines marks (x and y coordinates)");
-            int x = SCANNER.nextInt();
+        System.out.println(mineField.display());
+        Result result = Result.ON_GOING;
+        while (result == Result.ON_GOING) {
+            System.out.println("Set/unset mines marks or claim a cell as free:");
             int y = SCANNER.nextInt();
-            status = mineField.shot(x, y);
-            if (status == Status.HIT_NUMBER) {
-                System.out.println("There is a number here!");
-            } else if (status == Status.ON_GOING) {
-                System.out.println(mineField);
-            } else if (status == Status.COMPLETED) {
-                System.out.println(mineField);
+            int x = SCANNER.nextInt();
+            Command command = Command.valueOf(SCANNER.next().toUpperCase());
+            result = mineField.shot(x, y, command);
+            System.out.println(mineField.display());
+            if (result == Result.WIN) {
                 System.out.println("Congratulations! You found all the mines!");
+                break;
+            } else if (result == Result.LOSE) {
+                System.out.println("You stepped on a mine and failed!");
+                break;
             }
         }
     }

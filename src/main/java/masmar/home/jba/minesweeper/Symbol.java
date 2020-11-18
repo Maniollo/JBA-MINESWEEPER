@@ -1,7 +1,7 @@
 package masmar.home.jba.minesweeper;
 
 enum Symbol {
-    MINE('.'),
+    MINE('X'),
     ONE('1'),
     TWO('2'),
     THREE('3'),
@@ -10,9 +10,13 @@ enum Symbol {
     SIX('6'),
     SEVEN('7'),
     EIGHT('8'),
+    SAFE('.'),
+
     MARKED_MISS('*'),
     MARKED_MINE('*'),
-    SAFE('.');
+
+    UNEXPLORED('.'),
+    EXPLORED_WO_MINES('/');
     private final char symbol;
 
     Symbol(char symbol) {
@@ -24,6 +28,6 @@ enum Symbol {
     }
 
     public boolean isNumber() {
-        return this != MINE && this != SAFE && this != MARKED_MINE && this != MARKED_MISS;
+        return this != MINE && this != SAFE && this != MARKED_MINE && this != MARKED_MISS && this != UNEXPLORED && this != EXPLORED_WO_MINES;
     }
 }
